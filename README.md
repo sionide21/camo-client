@@ -58,7 +58,7 @@ register = template.Library()
 
 
 @register.filter
-def rich_text_display(text):
+def proxy_images(text):
     client = CamoClient(settings.CAMO_URL, key=settings.CAMO_KEY)
     return client.parse_html(text)
 ```

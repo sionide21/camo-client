@@ -16,12 +16,51 @@ This package is available on pypi. Installation is as simple as:
 
 ## Usage
 
+### For individual urls
+
 ```python
 from camo import CamoClient
 
 
 client = CamoClient("https://mycamoinstance.com", key="my camo key")
 url = client.image_url("http://someothersite.com/path/to/image.png")
+```
+
+### For html snippets
+
+```python
+from camo import CamoClient
+
+
+client = CamoClient("https://mycamoinstance.com", key="my camo key")
+html = """\
+<p>
+    Here is a picture:
+    <img src="http://http://someothersite.com/path/to/image.png" alt="It's a banana">
+</p>
+"""
+
+client.parse_html(html)
+```
+
+
+### For Django
+
+This doesn't directly ship with a django filter but you can simply add the following snippet to you templatetags
+
+```python
+from camo import CamoClient
+from django import template
+from django.utils.safestring import mark_safe
+
+
+register = template.Library()
+
+
+@register.filter
+def rich_text_display(text):
+    client = CamoClient(settings.CAMO_URL, key=settings.CAMO_KEY)
+    return client.parse_html(text)
 ```
 
 

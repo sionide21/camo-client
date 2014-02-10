@@ -36,7 +36,7 @@ client = CamoClient("https://mycamoinstance.com", key="my camo key")
 html = """\
 <p>
     Here is a picture:
-    <img src="http://http://someothersite.com/path/to/image.png" alt="It's a banana">
+    <img src="http://someothersite.com/path/to/image.png" alt="It's a banana">
 </p>
 """
 

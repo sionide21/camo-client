@@ -11,7 +11,7 @@ setup(
     url='https://github.com/sionide21/camo-client',
 
     py_modules=['camo'],
-    install_requires=['memoize'],
+    install_requires=['memoize', 'lxml'],
     platforms='all',
     license='MIT',
     classifiers=[

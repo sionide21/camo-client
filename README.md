@@ -1,6 +1,8 @@
 Camo Client
 ===========
 
+[![Build Status](https://travis-ci.org/sionide21/camo-client.png)](https://travis-ci.org/sionide21/camo-client)
+
 A python client for Github's [Camo image proxy](https://github.com/atmos/camo).
 
 

@@ -30,7 +30,9 @@ class CamoClient(object):
     def parse_html(self, string):
         doc = html.fromstring(string.join(['<div>', '</div>']))
         doc = self._rewrite_image_urls(doc)
-        return ''.join(map(html.tostring, doc))
+        # iterating over a node returns all the tags within that node
+        # ..if there are none, return the original string
+        return ''.join(map(html.tostring, doc)) or string
 
 
 class Image(object):

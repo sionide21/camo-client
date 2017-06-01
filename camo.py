@@ -32,13 +32,13 @@ class CamoClient(object):
         doc = self._rewrite_image_urls(doc)
         # iterating over a node returns all the tags within that node
         # ..if there are none, return the original string
-        return b''.join(map(html.tostring, doc)).decode() or string
+        return ''.join(map(html.tostring, doc)) or string
 
 
 class Image(object):
     def __init__(self, url, key):
-        self.url = bytes(url, 'utf-8')
-        self.key = bytes(key, 'utf-8')
+        self.url = url
+        self.key = key
 
     @mproperty
     def path(self):
@@ -50,4 +50,4 @@ class Image(object):
 
     @mproperty
     def encoded_url(self):
-        return self.url.hex()
+        return self.url.encode("hex")

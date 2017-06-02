@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import re
+import urlparse
 from memoize import mproperty
 from lxml import html
 
@@ -13,10 +14,14 @@ class CamoClient(object):
     def image_url(self, url):
         return self.server + Image(url, self.key).path
 
+    def _is_absolute(self, url):
+        parsed_url = urlparse.urlparse(url.strip())
+        return bool(parsed_url.netloc)
+
     def _rewrite_url(self, url):
         if url.startswith(self.server):
             return url
-        elif not any(map(url.startswith, ["http://", "https://"])):
+        elif not self._is_absolute(url):
             return url
         else:
             return self.image_url(url)
@@ -32,13 +37,13 @@ class CamoClient(object):
         doc = self._rewrite_image_urls(doc)
         # iterating over a node returns all the tags within that node
         # ..if there are none, return the original string
-        return b''.join(map(html.tostring, doc)).decode() or string
+        return ''.join(map(html.tostring, doc)) or string
 
 
 class Image(object):
     def __init__(self, url, key):
-        self.url = bytes(url, 'utf-8')
-        self.key = bytes(key, 'utf-8')
+        self.url = url
+        self.key = key
 
     @mproperty
     def path(self):
@@ -50,4 +55,4 @@ class Image(object):
 
     @mproperty
     def encoded_url(self):
-        return self.url.hex()
+        return self.url.encode("hex")

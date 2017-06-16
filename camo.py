@@ -1,7 +1,6 @@
 import hashlib
 import hmac
 import re
-import urlparse
 from memoize import mproperty
 from lxml import html
 
@@ -14,14 +13,10 @@ class CamoClient(object):
     def image_url(self, url):
         return self.server + Image(url, self.key).path
 
-    def _is_absolute(self, url):
-        parsed_url = urlparse.urlparse(url.strip())
-        return bool(parsed_url.netloc)
-
     def _rewrite_url(self, url):
-        if url.startswith(self.server):
-            return url
-        elif not self._is_absolute(url):
+        # skip images that have already been proxied and
+        # images with data URIs
+        if url.startswith(self.server) or url.startswith("data:image/"):
             return url
         else:
             return self.image_url(url)

@@ -2,7 +2,7 @@ Camo Client
 ===========
 
 [![Build Status](https://travis-ci.org/sionide21/camo-client.png)](https://travis-ci.org/sionide21/camo-client)
-[![Latest Version](https://pypip.in/v/camo-client/badge.png)](https://pypi.python.org/pypi/camo-client/)
+[![Latest Version](https://img.shields.io/pypi/v/camo-client.svg)](https://pypi.python.org/pypi/camo-client/)
 
 A python client for Github's [Camo image proxy](https://github.com/atmos/camo).
 

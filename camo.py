@@ -11,20 +11,17 @@ class CamoClient(object):
         self.key = key
 
     def image_url(self, url):
-        return self.server + Image(url, self.key).path
-
-    def _rewrite_url(self, url):
         # skip images that have already been proxied and
         # images with data URIs
         if url.startswith(self.server) or url.startswith("data:image/"):
             return url
         else:
-            return self.image_url(url)
+            return self.server + Image(url, self.key).path
 
     def _rewrite_image_urls(self, node):
         for img in node.xpath('.//img'):
             if img.get('src'):
-                img.set('src', self._rewrite_url(img.get('src')))
+                img.set('src', self.image_url(img.get('src')))
         return node
 
     def parse_html(self, string):

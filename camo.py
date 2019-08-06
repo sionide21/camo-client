@@ -1,3 +1,4 @@
+import binascii
 import hashlib
 import hmac
 import re
@@ -45,8 +46,10 @@ class Image(object):
 
     @mproperty
     def digest(self):
-        return hmac.new(self.key, self.url, hashlib.sha1).hexdigest()
+        return hmac.new(six.b(self.key), six.b(self.url), hashlib.sha1).hexdigest()
 
     @mproperty
     def encoded_url(self):
-        return self.url.encode("hex")
+        if six.PY2:
+            return self.url.encode("hex")
+        return binascii.hexlify(six.b(self.url)).decode("utf-8")

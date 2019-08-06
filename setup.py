@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='camo-client',
-    version='0.2.0',
+    version='0.2.1',
     author='Ben Olive',
     author_email='sionide21@gmail.com',
     description="A python client for Github's Camo image proxy",

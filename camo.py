@@ -3,6 +3,7 @@ import hmac
 import re
 from memoize import mproperty
 from lxml import html
+import six
 
 
 class CamoClient(object):
@@ -30,7 +31,7 @@ class CamoClient(object):
     def parse_html(self, string):
         doc = html.fromstring(string.join(['<div>', '</div>']))
         doc = self._rewrite_image_urls(doc)
-        return ''.join(map(html.tostring, doc))
+        return six.ensure_str(b''.join(map(html.tostring, doc)))
 
 
 class Image(object):

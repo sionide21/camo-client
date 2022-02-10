@@ -39,3 +39,8 @@ class CamoClientTest(unittest.TestCase):
         client = CamoClient("https://fakecdn.org/", key="hello")
         html = """<p><img src="/images/hahafunny.jpg"></p>"""
         self.assertEqual(client.parse_html(html), html)
+
+    def test_unmarkedup_text(self):
+        client = CamoClient("https://fakecdn.org/", key="hello")
+        text = """butts"""
+        self.assertEqual(client.parse_html(text), text)

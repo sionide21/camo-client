@@ -4,7 +4,6 @@ import hmac
 import re
 from memoize import mproperty
 from lxml import html
-import six
 
 
 class CamoClient(object):
@@ -32,7 +31,10 @@ class CamoClient(object):
     def parse_html(self, string):
         doc = html.fromstring(string.join(['<div>', '</div>']))
         doc = self._rewrite_image_urls(doc)
-        return six.ensure_str(b''.join(map(html.tostring, doc)))
+        # Note: html.tostring deceptively returns bytes, not str
+        # iterating over a node returns all the tags within that node
+        # ..if there are none, return the original string
+        return ''.join([html.tostring(e).decode("utf-8") for e in doc]) or string
 
 
 class Image(object):
@@ -46,10 +48,8 @@ class Image(object):
 
     @mproperty
     def digest(self):
-        return hmac.new(six.b(self.key), six.b(self.url), hashlib.sha1).hexdigest()
+        return hmac.new(self.key.encode("utf-8"), self.url.encode("utf-8"), hashlib.sha1).hexdigest()
 
     @mproperty
     def encoded_url(self):
-        if six.PY2:
-            return self.url.encode("hex")
-        return binascii.hexlify(six.b(self.url)).decode("utf-8")
+        return binascii.hexlify(self.url.encode("utf-8")).decode("utf-8")
